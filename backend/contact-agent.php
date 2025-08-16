@@ -19,7 +19,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 // Validate required fields
 $required_fields = ['name', 'email', 'phone', 'message', 'property_id'];
 foreach ($required_fields as $field) {
-    if (!isset($data[$field]) || empty($data[$field])) {
+    if (!isset($data[$field])) {
         echo json_encode(['status' => 'error', 'message' => "Missing required field: $field"]);
         exit;
     }
@@ -31,9 +31,61 @@ $phone = trim($data['phone']);
 $message = trim($data['message']);
 $propertyId = intval($data['property_id']);
 
-// Validate email
+// Validate name (only alphabets and spaces, max 12 characters, min 2 characters)
+if (empty($name)) {
+    echo json_encode(['status' => 'error', 'message' => 'Name is required.']);
+    exit;
+}
+if (strlen($name) < 2) {
+    echo json_encode(['status' => 'error', 'message' => 'Name must be at least 2 characters long.']);
+    exit;
+}
+if (strlen($name) > 12) {
+    echo json_encode(['status' => 'error', 'message' => 'Name must be no more than 12 characters long.']);
+    exit;
+}
+if (!preg_match('/^[A-Za-z\s]+$/', $name)) {
+    echo json_encode(['status' => 'error', 'message' => 'Name should only contain letters and spaces.']);
+    exit;
+}
+
+// Validate phone (exactly 11 digits)
+if (empty($phone)) {
+    echo json_encode(['status' => 'error', 'message' => 'Phone number is required.']);
+    exit;
+}
+if (!preg_match('/^[0-9]{11}$/', $phone)) {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid phone number. Please enter exactly 11 digits.']);
+    exit;
+}
+
+// Validate email (must be a valid email format)
+if (empty($email)) {
+    echo json_encode(['status' => 'error', 'message' => 'Email address is required.']);
+    exit;
+}
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid email address']);
+    echo json_encode(['status' => 'error', 'message' => 'Invalid email address. Please enter a valid email.']);
+    exit;
+}
+
+// Validate message (required, min 10 characters, max 500 characters)
+if (empty($message)) {
+    echo json_encode(['status' => 'error', 'message' => 'Message is required.']);
+    exit;
+}
+if (strlen($message) < 10) {
+    echo json_encode(['status' => 'error', 'message' => 'Message must be at least 10 characters long.']);
+    exit;
+}
+if (strlen($message) > 500) {
+    echo json_encode(['status' => 'error', 'message' => 'Message must be no more than 500 characters long.']);
+    exit;
+}
+
+// Validate property ID
+if (empty($propertyId)) {
+    echo json_encode(['status' => 'error', 'message' => 'Property ID is required.']);
     exit;
 }
 
@@ -153,4 +205,4 @@ if ($mailSent) {
         'message' => 'Your message has been saved. The property owner will be notified.'
     ]);
 }
-?> 
+?>

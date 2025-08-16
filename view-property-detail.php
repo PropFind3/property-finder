@@ -236,30 +236,30 @@ if ($soldCount > 0) {
                             <input type="hidden" id="property_id" value="<?php echo $propertyId; ?>">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Your Name</label>
-                                <input type="text" class="form-control" id="name" required>
+                                <input type="text" class="form-control" id="name" name="name" maxlength="12" pattern="[A-Za-z\s]+" title="Name should only contain letters and spaces" required oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" onpaste="setTimeout(() => { this.value = this.value.replace(/[^A-Za-z\s]/g, ''); }, 10)">
                                 <div class="invalid-feedback">
-                                    Please enter your name
+                                    Please enter a valid name (letters only, max 12 characters)
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="email" required>
+                                <input type="email" class="form-control" id="email" name="email" required>
                                 <div class="invalid-feedback">
-                                    Please enter a valid email address
+                                    Please enter a valid email address containing "@"
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="phone" required>
+                                <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{11}" title="Phone number must be exactly 11 digits" required maxlength="11" oninput="this.value = this.value.replace(/\D/g, '').substring(0, 11)" onpaste="setTimeout(() => { this.value = this.value.replace(/\D/g, '').substring(0, 11); }, 10)" onkeypress="return (event.which >= 48 && event.which <= 57)">
                                 <div class="invalid-feedback">
-                                    Please enter your phone number
+                                    Please enter a valid phone number (exactly 11 digits)
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="message" class="form-label">Message</label>
-                                <textarea class="form-control" id="message" rows="4" required></textarea>
+                                <textarea class="form-control" id="message" name="message" rows="4" required minlength="10" maxlength="500"></textarea>
                                 <div class="invalid-feedback">
-                                    Please enter your message
+                                    Please enter your message (minimum 10 characters)
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">
@@ -274,67 +274,6 @@ if ($soldCount > 0) {
                 </div>
                 <?php else: ?>
                 <div>
-                </div>
-                <!-- Bootstrap Modal for Checkout -->
-                <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="checkoutModalLabel">Order Property</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="modal-success-icon text-center mb-2">
-                          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="24" cy="24" r="24" fill="#4CAF50" />
-                            <path d="M34 18L22 30L14 22" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                          </svg>
-                        </div>
-                        <div class="modal-title fs-4 mb-1">Order Property</div>
-                        <div class="modal-subtitle mb-3">Please enter your details to complete the order:</div>
-                        <form id="checkout-form" autocomplete="off">
-                          <div class="mb-3">
-                            <label for="checkout-email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="checkout-email" name="checkout-email" placeholder="Email Address" value="<?php echo htmlspecialchars($userEmail); ?>" <?php echo $userEmail ? 'disabled' : ''; ?> required />
-                          </div>
-                          <div class="mb-3">
-                            <label for="checkout-name" class="form-label">Cardholder Name</label>
-                            <input type="text" class="form-control" id="checkout-name" name="checkout-name" placeholder="Name on Card" required />
-                          </div>
-                          <div class="mb-3">
-                            <label for="checkout-card" class="form-label">Card Number</label>
-                            <div class="input-group">
-                              <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
-                              <input type="text" class="form-control" id="checkout-card" name="checkout-card" placeholder="Card Number" maxlength="19" required />
-                            </div>
-                          </div>
-                          <div class="row g-2 mb-3">
-                            <div class="col">
-                              <label for="checkout-expiry" class="form-label">Expiry</label>
-                              <input type="text" class="form-control" id="checkout-expiry" name="checkout-expiry" placeholder="MM/YY" maxlength="5" required />
-                            </div>
-                            <div class="col">
-                              <label for="checkout-cvv" class="form-label">CVV</label>
-                              <input type="text" class="form-control" id="checkout-cvv" name="checkout-cvv" placeholder="CVV" maxlength="4" required />
-                            </div>
-                          </div>
-                          <div id="modal-order-summary" class="mb-3">
-                            <div class="d-flex justify-content-between border-bottom pb-1 mb-1">
-                              <span class="fw-semibold">Property:</span>
-                              <span><?php echo htmlspecialchars($property['title']); ?></span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                              <span class="fw-semibold">Price:</span>
-                              <span>Pkr <?php echo htmlspecialchars($property['price']); ?></span>
-                            </div>
-                          </div>
-                          <button class="btn btn-success w-100 modal-ok-btn" id="modal-ok" type="submit">
-                            Pay & Complete Order
-                          </button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <?php endif; ?>
             </div>
@@ -605,4 +544,4 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Custom JS -->
 <script src="js/property-detail.js"></script>
 <script src="js/property-buy.js"></script>
-<?php 'inc/footer.php'?>
+<?php include 'inc/footer.php'; ?>

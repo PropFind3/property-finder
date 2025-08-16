@@ -132,7 +132,7 @@ if ($currentPage === 'upload-property.php' && !isset($_SESSION['user_id'])) {
     </style>
         <link href="css/auth.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
-<script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script></body>
+    <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->

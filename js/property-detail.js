@@ -169,6 +169,10 @@ const handleReport = () => {
 // Contact Form Validation
 const handleContactForm = () => {
   const form = document.getElementById("contactForm");
+  const nameInput = document.getElementById("name");
+  const emailInput = document.getElementById("email");
+  const phoneInput = document.getElementById("phone");
+  const messageInput = document.getElementById("message");
 
   if (!form) {
     console.error("Contact form not found!");
@@ -177,15 +181,329 @@ const handleContactForm = () => {
 
   console.log("Setting up contact form handler");
 
+  // Enhanced real-time validation for name field (only letters and spaces, max 12 characters)
+  if (nameInput) {
+    // Prevent typing invalid characters
+    nameInput.addEventListener("keypress", function(e) {
+      const char = String.fromCharCode(e.which);
+      if (!/[A-Za-z\s]/.test(char)) {
+        e.preventDefault();
+      }
+    });
+    
+    // Real-time input validation
+    nameInput.addEventListener("input", function(e) {
+      // Remove any non-alphabetic characters and spaces
+      let value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+      
+      // Limit to 12 characters as per backend requirements
+      if (value.length > 12) {
+        value = value.substring(0, 12);
+      }
+      
+      // Update the input value
+      e.target.value = value;
+      
+      // Validate name (at least 2 characters)
+      if (value.length < 2 && value.length > 0) {
+        e.target.setCustomValidity("Name must be at least 2 characters long");
+        e.target.classList.add("is-invalid");
+      } else if (value.length >= 2) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+    
+    // Prevent pasting invalid characters in name field
+    nameInput.addEventListener("paste", function(e) {
+      setTimeout(() => {
+        let value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+        // Ensure pasted content also respects the 12 character limit
+        if (value.length > 12) {
+          value = value.substring(0, 12);
+        }
+        e.target.value = value;
+        
+        // Validate name (at least 2 characters)
+        if (value.length < 2 && value.length > 0) {
+          e.target.setCustomValidity("Name must be at least 2 characters long");
+          e.target.classList.add("is-invalid");
+        } else if (value.length >= 2) {
+          e.target.setCustomValidity("");
+          e.target.classList.remove("is-invalid");
+          e.target.classList.add("is-valid");
+        } else {
+          e.target.setCustomValidity("");
+          e.target.classList.remove("is-invalid", "is-valid");
+        }
+      }, 10);
+    });
+    
+    // Validate on blur
+    nameInput.addEventListener("blur", function(e) {
+      if (e.target.value.length > 0 && e.target.value.length < 2) {
+        e.target.setCustomValidity("Name must be at least 2 characters long");
+        e.target.classList.add("is-invalid");
+      } else if (e.target.value.length >= 2) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+  }
+
+  // Enhanced real-time validation for email field
+  if (emailInput) {
+    emailInput.addEventListener("input", function(e) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (e.target.value && !emailRegex.test(e.target.value)) {
+        e.target.setCustomValidity("Please enter a valid email address");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (e.target.value && emailRegex.test(e.target.value)) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+    
+    emailInput.addEventListener("blur", function(e) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (e.target.value && !emailRegex.test(e.target.value)) {
+        e.target.setCustomValidity("Please enter a valid email address");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (e.target.value && emailRegex.test(e.target.value)) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+  }
+
+  // Enhanced real-time validation for phone field (only numbers, exactly 11 digits)
+  if (phoneInput) {
+    // Prevent typing non-numeric characters
+    phoneInput.addEventListener("keypress", function(e) {
+      // Allow only numbers (0-9) and backspace, delete, arrow keys
+      if (e.which < 48 || e.which > 57) {
+        e.preventDefault();
+      }
+    });
+    
+    // Real-time input validation
+    phoneInput.addEventListener("input", function(e) {
+      // Remove any non-numeric characters
+      let value = e.target.value.replace(/\D/g, "");
+      
+      // Limit to 11 digits as per backend requirements
+      if (value.length > 11) {
+        value = value.substring(0, 11);
+      }
+      
+      // Update the input value
+      e.target.value = value;
+      
+      // Validate phone (exactly 11 digits)
+      if (value.length > 0 && value.length !== 11) {
+        e.target.setCustomValidity("Phone number must be exactly 11 digits");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (value.length === 11 && /^[0-9]{11}$/.test(value)) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+    
+    // Prevent pasting invalid characters in phone field
+    phoneInput.addEventListener("paste", function(e) {
+      setTimeout(() => {
+        let value = e.target.value.replace(/\D/g, "");
+        // Ensure pasted content also respects the 11 digit limit
+        if (value.length > 11) {
+          value = value.substring(0, 11);
+        }
+        e.target.value = value;
+        
+        // Validate phone (exactly 11 digits)
+        if (value.length > 0 && value.length !== 11) {
+          e.target.setCustomValidity("Phone number must be exactly 11 digits");
+          e.target.classList.add("is-invalid");
+          e.target.classList.remove("is-valid");
+        } else if (value.length === 11 && /^[0-9]{11}$/.test(value)) {
+          e.target.setCustomValidity("");
+          e.target.classList.remove("is-invalid");
+          e.target.classList.add("is-valid");
+        } else {
+          e.target.setCustomValidity("");
+          e.target.classList.remove("is-invalid", "is-valid");
+        }
+      }, 10);
+    });
+    
+    // Validate on blur
+    phoneInput.addEventListener("blur", function(e) {
+      if (e.target.value.length > 0 && e.target.value.length !== 11) {
+        e.target.setCustomValidity("Phone number must be exactly 11 digits");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (e.target.value.length === 11 && /^[0-9]{11}$/.test(e.target.value)) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+  }
+
+  // Enhanced real-time validation for message field
+  if (messageInput) {
+    messageInput.addEventListener("input", function(e) {
+      // Validate message (at least 10 characters, max 500 characters)
+      if (e.target.value.length > 0 && e.target.value.length < 10) {
+        e.target.setCustomValidity("Message must be at least 10 characters long");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (e.target.value.length > 500) {
+        e.target.setCustomValidity("Message must be no more than 500 characters");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (e.target.value.length >= 10 && e.target.value.length <= 500) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+    
+    messageInput.addEventListener("blur", function(e) {
+      if (e.target.value.length > 0 && e.target.value.length < 10) {
+        e.target.setCustomValidity("Message must be at least 10 characters long");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (e.target.value.length > 500) {
+        e.target.setCustomValidity("Message must be no more than 500 characters");
+        e.target.classList.add("is-invalid");
+        e.target.classList.remove("is-valid");
+      } else if (e.target.value.length >= 10 && e.target.value.length <= 500) {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid");
+        e.target.classList.add("is-valid");
+      } else {
+        e.target.setCustomValidity("");
+        e.target.classList.remove("is-invalid", "is-valid");
+      }
+    });
+  }
+
   form.addEventListener("submit", async (e) => {
     console.log("Form submission intercepted");
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
 
+    // Trigger validation for all fields
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const message = document.getElementById("message").value.trim();
+    
+    // Validate all fields before submission
+    let isValid = true;
+    
+    // Validate name
+    if (!name) {
+      document.getElementById("name").setCustomValidity("Please enter your name");
+      isValid = false;
+    } else if (name.length < 2) {
+      document.getElementById("name").setCustomValidity("Name must be at least 2 characters long");
+      isValid = false;
+    } else if (name.length > 12) {
+      document.getElementById("name").setCustomValidity("Name must be no more than 12 characters");
+      isValid = false;
+    } else if (!/^[A-Za-z\s]+$/.test(name)) {
+      document.getElementById("name").setCustomValidity("Name should only contain letters and spaces");
+      isValid = false;
+    } else {
+      document.getElementById("name").setCustomValidity("");
+    }
+    
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      document.getElementById("email").setCustomValidity("Please enter your email address");
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      document.getElementById("email").setCustomValidity("Please enter a valid email address");
+      isValid = false;
+    } else {
+      document.getElementById("email").setCustomValidity("");
+    }
+    
+    // Validate phone
+    if (!phone) {
+      document.getElementById("phone").setCustomValidity("Please enter your phone number");
+      isValid = false;
+    } else if (phone.length !== 11) {
+      document.getElementById("phone").setCustomValidity("Phone number must be exactly 11 digits");
+      isValid = false;
+    } else if (!/^[0-9]{11}$/.test(phone)) {
+      document.getElementById("phone").setCustomValidity("Phone number must contain only digits");
+      isValid = false;
+    } else {
+      document.getElementById("phone").setCustomValidity("");
+    }
+    
+    // Validate message
+    if (!message) {
+      document.getElementById("message").setCustomValidity("Please enter your message");
+      isValid = false;
+    } else if (message.length < 10) {
+      document.getElementById("message").setCustomValidity("Message must be at least 10 characters long");
+      isValid = false;
+    } else if (message.length > 500) {
+      document.getElementById("message").setCustomValidity("Message must be no more than 500 characters");
+      isValid = false;
+    } else {
+      document.getElementById("message").setCustomValidity("");
+    }
+    
+    // If form is not valid, show validation errors
+    if (!isValid) {
+      e.stopPropagation();
+      form.classList.add("was-validated");
+      // Manually trigger validation display
+      triggerValidationDisplay();
+      return;
+    }
+
+    // If form is valid, proceed with submission
     if (!form.checkValidity()) {
       e.stopPropagation();
       form.classList.add("was-validated");
+      // Manually trigger validation display
+      triggerValidationDisplay();
       return;
     }
 
@@ -270,6 +588,33 @@ const handleContactForm = () => {
       submitBtn.disabled = false;
     }
   });
+
+  // Add form reset event listener to clear validation states
+  form.addEventListener("reset", function() {
+    // Clear all validation classes
+    const inputs = form.querySelectorAll("input, textarea");
+    inputs.forEach(input => {
+      input.classList.remove("is-valid", "is-invalid");
+      input.setCustomValidity("");
+    });
+    
+    // Remove was-validated class
+    form.classList.remove("was-validated");
+    
+    // Remove any existing alerts
+    const existingAlerts = form.parentElement.querySelectorAll(".alert");
+    existingAlerts.forEach(alert => alert.remove());
+  });
+};
+
+// Function to clear validation states
+const clearValidationStates = (form) => {
+  const inputs = form.querySelectorAll("input, textarea");
+  inputs.forEach(input => {
+    input.classList.remove("is-valid", "is-invalid");
+    input.setCustomValidity("");
+  });
+  form.classList.remove("was-validated");
 };
 
 // Toast notification function
@@ -284,6 +629,18 @@ const showToast = (message, type = "success") => {
   } else {
     // Fallback to alert if iziToast is not available
     alert(message);
+  }
+};
+
+// Function to manually trigger validation display
+const triggerValidationDisplay = () => {
+  const form = document.getElementById("contactForm");
+  if (form) {
+    // Manually trigger validation display for all fields
+    form.querySelectorAll("input, textarea").forEach(input => {
+      input.dispatchEvent(new Event('input')); // Trigger input event
+      input.dispatchEvent(new Event('blur')); // Trigger blur event
+    });
   }
 };
 
