@@ -38,6 +38,18 @@ if ($currentPage === 'upload-property.php' && !isset($_SESSION['user_id'])) {
     <!-- Custom CSS -->
     <link href="css/property-detail.css" rel="stylesheet">
     <style>
+        /* Global background color for all pages */
+        body {
+            background-color: #f5f5f5; /* very light gray */
+        }
+
+        /* Ensure main content areas have proper spacing */
+        main.container, .container.mt-5, .container.pt-4 {
+            background-color: #f5f5f5; /* very light gray */
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
         .favorite-btn {
             width: 40px;
             height: 40px;

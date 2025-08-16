@@ -62,7 +62,7 @@
 }
 
 .review-item:hover {
-    background-color: #f8f9fa;
+    background-color: #f5f5f5; /* very light gray - matches global background */
 }
 
 .review-item:last-child {
@@ -85,7 +85,7 @@
 
 /* Write Review Form */
 .write-review {
-    background-color: #f8f9fa;
+    background-color: #f5f5f5; /* very light gray - matches global background */
     padding: 2rem;
     border-radius: 8px;
     margin-bottom: 2rem;

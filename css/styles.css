@@ -486,7 +486,7 @@ body {
 
 /* Testimonials Section Styles */
 .testimonials-section {
-  background-color: #f8f9fa;
+  background-color: #f5f5f5; /* very light gray - matches global background */
 }
 
 .testimonial-card {
@@ -692,7 +692,7 @@ body {
 }
 
 .auth-form .input-group-text {
-  background-color: #f8f9fa;
+  background-color: #f5f5f5; /* very light gray - matches global background */
   border-right: none;
   color: #6c757d;
 }
@@ -722,7 +722,7 @@ body {
 }
 
 #togglePassword:hover {
-  background-color: #f8f9fa;
+  background-color: #f5f5f5; /* very light gray - matches global background */
 }
 
 .forgot-password {
@@ -820,7 +820,7 @@ input[type="file"].form-control::-webkit-file-upload-button:hover {
 }
 
 .form-check:hover {
-  background-color: #f8f9fa;
+  background-color: #f5f5f5; /* very light gray - matches global background */
 }
 
 .form-check-input:checked ~ .form-check-label {

@@ -1,6 +1,7 @@
 <?php include 'inc/header.php'; ?>
 
 <style>
+/* Image preview container styles */
 .image-preview-container {
     display: flex;
     flex-direction: row;

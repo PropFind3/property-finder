@@ -1,6 +1,6 @@
 /* Dashboard Layout */
 .dashboard-body {
-  background-color: #f8f9fa;
+  background-color: #f5f5f5; /* very light gray - matches global background */
   min-height: 100vh;
   padding-top: 72px; /* Height of navbar */
 }
