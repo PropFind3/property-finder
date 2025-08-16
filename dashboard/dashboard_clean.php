@@ -1061,9 +1061,10 @@ $stmt->close();
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">CNIC <span class="text-danger">*</span></label>
-                                                    <input type="text" name="cnic" class="form-control" value="<?php echo htmlspecialchars($userCNIC ?? ''); ?>" 
-                                                           placeholder="12345-1234567-1" pattern="^[0-9]{5}-[0-9]{7}-[0-9]{1}$" title="Please enter CNIC in format: XXXXX-XXXXXXX-X" required>
+                                                    <input type="text" name="cnic" class="form-control" value="<?php echo htmlspecialchars($userCNIC ?? ''); ?>"
+                                                           placeholder="12345-1234567-1" pattern="^[0-9]{5}-[0-9]{7}-[0-9]{1}$" title="Please enter CNIC in format: XXXXX-XXXXXXX-X" required readonly>
                                                     <div class="invalid-feedback">Please enter a valid CNIC in format: XXXXX-XXXXXXX-X</div>
+                                                    <div class="form-text">CNIC cannot be changed for security reasons.</div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">Account Type</label>
