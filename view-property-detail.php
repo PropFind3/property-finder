@@ -544,4 +544,5 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Custom JS -->
 <script src="js/property-detail.js"></script>
 <script src="js/property-buy.js"></script>
+<script src="js/form-validation.js"></script>
 <?php include 'inc/footer.php'; ?>

@@ -13,10 +13,16 @@
         <div class="col-md-6">
             <label for="name" class="form-label">Full Name</label>
             <input type="text" class="form-control" id="name" name="name" required pattern="^[A-Za-z\s]+$" title="Name should only contain letters and spaces.">
+            <div class="invalid-feedback">
+                Please enter a valid name (letters only)
+            </div>
         </div>
         <div class="col-md-6">
             <label for="email" class="form-label">Email Address</label>
             <input type="email" class="form-control" id="email" name="email" required>
+            <div class="invalid-feedback">
+                Please enter a valid email address
+            </div>
         </div>
     </div>
 
@@ -24,10 +30,16 @@
         <div class="col-md-6">
             <label for="phone" class="form-label">Phone Number</label>
             <input type="text" class="form-control" id="phone" name="phone" placeholder="03XX-XXXXXXX" required>
+            <div class="invalid-feedback">
+                Please enter a valid phone number (format: 0300-1234567)
+            </div>
         </div>
         <div class="col-md-6">
             <label for="location" class="form-label">Location / Address</label>
             <input type="text" class="form-control" id="location" name="location" placeholder="City, Country" required>
+            <div class="invalid-feedback">
+                Please enter your location
+            </div>
         </div>
     </div>
 
@@ -35,6 +47,9 @@
         <div class="col-md-6">
             <label for="cnic" class="form-label">CNIC (XXXXX-XXXXXXX-X)</label>
             <input type="text" class="form-control" id="cnic" name="cnic" placeholder="12345-1234567-1" required>
+            <div class="invalid-feedback">
+                Please enter a valid CNIC number (format: 12345-1234567-1)
+            </div>
         </div>
         <div class="col-md-6">
             <label for="role" class="form-label">Account Type</label>
@@ -43,6 +58,9 @@
                 <option value="user">User</option>
                 <!-- <option value="admin">Admin</option> -->
             </select>
+            <div class="invalid-feedback">
+                Please select an account type
+            </div>
         </div>
     </div>
 
@@ -63,6 +81,9 @@
             <label for="password" class="form-label">Password</label>
             <div class="input-group">
                 <input type="password" class="form-control" id="password" name="password" required>
+                <div class="invalid-feedback">
+                    Password must be at least 6 characters
+                </div>
                 <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                     <i class="fas fa-eye"></i>
                 </button>
@@ -72,6 +93,9 @@
             <label for="confirmPassword" class="form-label">Confirm Password</label>
             <div class="input-group">
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                <div class="invalid-feedback">
+                    Passwords do not match
+                </div>
                 <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
                     <i class="fas fa-eye"></i>
                 </button>
@@ -98,6 +122,7 @@
     <!-- Custom JS -->
     
     <script src="ajax.js"></script>
+    <script src="js/form-validation.js"></script>
     
     <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -19,16 +19,25 @@
                             <h2 class="h3 mb-4">Send us a message</h2>
                             <form id="contactForm" class="contact-form">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
                                     <label for="name">Your Name</label>
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
-                                    <label for="email">Email Address</label>
+                                <div class="invalid-feedback">
+                                    Please enter a valid name (letters only)
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <textarea class="form-control" id="message" placeholder="Your Message" style="height: 150px" required></textarea>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+                                    <label for="email">Email Address</label>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="message" name="message" placeholder="Your Message" style="height: 150px" required></textarea>
                                     <label for="message">Your Message</label>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter your message (minimum 10 characters)
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-lg w-100">
                                     <i class="fas fa-paper-plane me-2"></i>Send Message
@@ -91,4 +100,5 @@
     <!-- Custom JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/contact.js"></script>
+    <script src="js/form-validation.js"></script>
     <?php include'inc/footer.php'?>

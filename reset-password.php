@@ -25,12 +25,18 @@
                         <input type="password" class="form-control" id="password" name="password" required minlength="8">
                         <button class="btn btn-outline-secondary toggle-password" type="button" tabindex="-1"><i class="fas fa-eye"></i></button>
                     </div>
+                    <div class="invalid-feedback">
+                        Password must be at least 8 characters
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
                     <div class="input-group">
                         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required minlength="8">
                         <button class="btn btn-outline-secondary toggle-password" type="button" tabindex="-1"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <div class="invalid-feedback">
+                        Passwords do not match
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Reset Password</button>
@@ -42,6 +48,7 @@
             </div>
         </div>
     </div>
+    <script src="js/form-validation.js"></script>
     <script>
     document.getElementById('resetPasswordForm')?.addEventListener('submit', function(e) {
         e.preventDefault();

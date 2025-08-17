@@ -262,86 +262,15 @@
 <!-- Custom JS -->
 <script src="ajax.js"></script>
 <script src="js/upload-property.js"></script>
+<script src="js/form-validation.js"></script>
 
-<!-- CNIC Formatting Script -->
+<!-- Essential Functionality Script -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Price validation - ensure minimum 5 digits
-    const priceInput = document.getElementById('price');
-    if (priceInput) {
-        priceInput.addEventListener('input', function(e) {
-            const value = this.value;
-            if (value && value.length < 5) {
-                this.setCustomValidity('Price must be at least 5 digits (minimum 10,000 PKR)');
-            } else if (value && parseInt(value) < 10000) {
-                this.setCustomValidity('Price must be at least 10,000 PKR');
-            } else {
-                this.setCustomValidity('');
-            }
-        });
-        
-        // Also validate on blur
-        priceInput.addEventListener('blur', function(e) {
-            const value = this.value;
-            if (value && value.length < 5) {
-                this.setCustomValidity('Price must be at least 5 digits (minimum 10,000 PKR)');
-            } else if (value && parseInt(value) < 10000) {
-                this.setCustomValidity('Price must be at least 10,000 PKR');
-            } else {
-                this.setCustomValidity('');
-            }
-        });
-    }
-
-    // Map link validation
-    const mapLinkInput = document.getElementById('mapLink');
-    if (mapLinkInput) {
-        mapLinkInput.addEventListener('input', function(e) {
-            validateMapLink(this.value);
-        });
-        
-        mapLinkInput.addEventListener('blur', function(e) {
-            validateMapLink(this.value);
-        });
-        
-        function validateMapLink(value) {
-            const errorDiv = document.getElementById('mapLinkError');
-            
-            if (!value.trim()) {
-                mapLinkInput.setCustomValidity('Map link is required');
-                errorDiv.textContent = 'Map link is required';
-                return false;
-            }
-            
-            // Check if it's a valid iframe embed link
-            const iframePattern = /<iframe[^>]*src=["'](https?:\/\/www\.google\.com\/maps\/embed[^"']*)["'][^>]*>/i;
-            const googleMapsEmbedPattern = /https?:\/\/www\.google\.com\/maps\/embed/i;
-            
-            if (!iframePattern.test(value) && !googleMapsEmbedPattern.test(value)) {
-                mapLinkInput.setCustomValidity('Please provide a valid Google Maps embed iframe link');
-                errorDiv.textContent = 'Please provide a valid Google Maps embed iframe link. It should contain "google.com/maps/embed"';
-                return false;
-            }
-            
-            // Additional validation for iframe structure
-            if (value.includes('<iframe') && !value.includes('src=')) {
-                mapLinkInput.setCustomValidity('Invalid iframe structure. Please include the src attribute');
-                errorDiv.textContent = 'Invalid iframe structure. Please include the src attribute';
-                return false;
-            }
-            
-            mapLinkInput.setCustomValidity('');
-            errorDiv.textContent = 'Please provide a valid Google Maps embed iframe link.';
-            return true;
-        }
-    }
-
+    // CNIC Number formatting
     const cnicInput = document.getElementById('cnicNumber');
     if (cnicInput) {
-        console.log("CNIC input found in inline script");
-        
         cnicInput.addEventListener('input', function(e) {
-            console.log("CNIC input event triggered from inline script");
             let value = cnicInput.value.replace(/\D/g, ''); // Remove all non-digits
             if (value.length > 13) value = value.slice(0, 13); // Max 13 digits
 
@@ -355,9 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else {
                 formatted = value;
-            }
-            if (value.length > 12) {
-                formatted = value.slice(0, 5) + '-' + value.slice(5, 12) + '-' + value.slice(12, 13);
             }
             cnicInput.value = formatted;
         });
@@ -390,71 +316,24 @@ document.addEventListener('DOMContentLoaded', function() {
             
             cnicInput.value = formatted;
         });
-    } else {
-        console.log("CNIC input not found in inline script");
     }
 
-    // Image preview functionality
-    const propertyImagesInput = document.getElementById('propertyImages');
-    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    const countSpan = document.getElementById('selectedImageCount');
-    
-    if (propertyImagesInput && imagePreviewContainer && countSpan) {
-        console.log("Image preview elements found in inline script");
-        
-        propertyImagesInput.addEventListener('change', function(e) {
-            console.log("Property images change event triggered from inline script");
-            let files = Array.from(propertyImagesInput.files);
-            console.log("Selected files:", files.length);
-
-            // Limit to 5 images
-            if (files.length > 5) {
-                const dt = new DataTransfer();
-                files.slice(0, 5).forEach((file) => dt.items.add(file));
-                propertyImagesInput.files = dt.files;
-                alert("You can select a maximum of 5 images. Only the first 5 will be used.");
-                files = Array.from(propertyImagesInput.files);
+    // Map link validation (basic)
+    const mapLinkInput = document.getElementById('mapLink');
+    if (mapLinkInput) {
+        mapLinkInput.addEventListener('blur', function(e) {
+            const value = this.value.trim();
+            if (value && !value.includes('google.com/maps/embed')) {
+                this.setCustomValidity('Please provide a valid Google Maps embed iframe link');
+            } else {
+                this.setCustomValidity('');
             }
-
-            // Show count
-            countSpan.textContent = files.length > 0 ? `(${files.length} selected)` : "";
-            console.log("Count span updated:", countSpan.textContent);
-
-            // Clear previous previews
-            imagePreviewContainer.innerHTML = "";
-            console.log("Cleared previous previews");
-
-            // Preview images
-            files.forEach((file, index) => {
-                console.log(`Processing file ${index + 1}:`, file.name, file.type);
-                if (!file.type.startsWith("image/")) {
-                    console.log("Skipping non-image file:", file.name);
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    console.log("File loaded, creating preview for:", file.name);
-                    const img = document.createElement("img");
-                    img.src = e.target.result;
-                    img.className = "img-thumbnail";
-                    img.alt = file.name;
-                    imagePreviewContainer.appendChild(img);
-                    console.log("Preview image added to container");
-                };
-                reader.onerror = function() {
-                    console.error("Error reading file:", file.name);
-                };
-                reader.readAsDataURL(file);
-            });
-        });
-    } else {
-        console.log("Image preview elements not found in inline script:", {
-            propertyImagesInput: !!propertyImagesInput,
-            imagePreviewContainer: !!imagePreviewContainer,
-            countSpan: !!countSpan
         });
     }
+
+
+
+
 });
 </script>
 

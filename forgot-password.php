@@ -18,6 +18,9 @@
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email" required autofocus>
+                    <div class="invalid-feedback">
+                        Please enter a valid email address
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Send Reset Link</button>
             </form>
@@ -27,6 +30,7 @@
             </div>
         </div>
     </div>
+        <script src="js/form-validation.js"></script>
     <script>
     document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -48,7 +52,7 @@
         })
         .catch(() => {
             msgDiv.innerHTML = '<div class="alert alert-danger">An error occurred. Please try again.</div>';
-        });
+            });
     });
     </script>
 </body>
