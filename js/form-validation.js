@@ -458,7 +458,8 @@ function initializeGeneralContactFormValidation() {
 
         if (!isValid) {
             e.preventDefault();
-            showToast('Please fix the validation errors before submitting', 'error');
+    // Error popup removed
+
         }
     });
 }

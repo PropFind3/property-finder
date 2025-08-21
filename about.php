@@ -128,8 +128,8 @@
                                 <img src="./images/user.png" class="rounded-circle mx-auto" height="148px" width="148px" alt="Team Member">
                             </div>
                             <div class="team-info">
-                                <h4>M Ammar</h4>
-                                <p class="text-muted">Head of Operations</p>
+                                <h4>Rana Mubeen</h4>
+                                <p class="text-muted">CEO & Founder</p>
                                 <p class="team-bio">Ensuring smooth operations and customer satisfaction.</p>
                             </div>
                         </div>
@@ -140,8 +140,8 @@
                                 <img src="./images/user.png" class="rounded-circle mx-auto" height="148px" width="148px" alt="Team Member">
                             </div>
                             <div class="team-info">
-                                <h4>Rana Mubeen</h4>
-                                <p class="text-muted">Tech Lead</p>
+                                <h4>M Ahmad</h4>
+                                <p class="text-muted">Manager</p>
                                 <p class="team-bio">Driving innovation and technical excellence.</p>
                             </div>
                         </div>

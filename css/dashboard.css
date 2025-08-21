@@ -460,3 +460,13 @@
     padding: 1rem;
   }
 }
+a.text-danger {
+    color: white !important;
+}
+span {
+    color: white !important;
+}
+.dropdown-menu.dropdown-menu-end.show {
+    background-color: #F59E0B !important; /* amber/orange */
+}
+
